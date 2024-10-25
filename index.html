@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Encuesta de Programación</title>
+    <link rel="stylesheet" href="./css/style.css">
+    <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+</head>
+<body>
+    <div id="app">
+        <header>
+            <h1>Encuesta de Programación</h1>
+        </header>
+
+        <!-- Mensaje de agradecimiento cuando se selecciona "No" -->
+        <div v-if="mensaje">
+            <p>{{ mensaje }}</p>
+        </div>
+
+        <!-- Encuesta -->
+        <form v-else>
+            <h3>¿Te gusta programar?</h3>
+            <label><input type="radio" v-model="gustaProgramar" value="Sí"> Sí</label>
+            <label><input type="radio" v-model="gustaProgramar" value="No"> No</label>
+
+            <!-- Mostrar encuesta solo si elige "Sí" -->
+            <div v-if="gustaProgramar === 'Sí'">
+                <h3>¿Cuánto años llevas programando?</h3>
+                <input type="number" v-model="aniosProgramando" min="0">
+
+                <h3>Cuéntanos tu experiencia programando:</h3>
+                <textarea v-model="experiencia" rows="3" placeholder="Escribe tu experiencia aquí"></textarea>
+
+                <h3>¿Cuántos lenguajes de programación conoces?</h3>
+                <input type="text" v-model="lenguajeNuevo" placeholder="Ingresa un lenguaje">
+                <button type="button" @click="agregarLenguaje">Agregar</button>
+
+                <ul>
+                    <li v-for="lenguaje in lenguajes" :key="lenguaje">{{ lenguaje }}</li>
+                </ul>
+
+                <button type="submit" @click.prevent="mostrarResultados">Mostrar resultados</button>
+            </div>
+        </form>
+
+        <!-- Mostrar resultados de la encuesta -->
+        <div class="resultados" v-if="mostrarResultadosEncuesta">
+            <h2>Resultados de la Encuesta</h2>
+            <p><strong>¿Te gusta programar?:</strong> {{ gustaProgramar }}</p>
+            <p><strong>Años programando:</strong> {{ aniosProgramando }}</p>
+            <p><strong>Experiencia:</strong> {{ experiencia }}</p>
+            <p><strong>Lenguajes:</strong></p>
+            <ul>
+                <li v-for="lenguaje in lenguajes" :key="lenguaje">{{ lenguaje }}</li>
+            </ul>
+        </div>
+    </div>
+
+    <script src="./javascript/script.js"></script>
+</body>
+</html>
